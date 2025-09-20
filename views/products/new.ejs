@@ -1,0 +1,39 @@
+<%- include('../partials/header', { title: "Thêm sản phẩm" }) %>
+
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">➕ Thêm sản phẩm mới</h2>
+
+  <form action="/products/new" method="POST" class="card shadow p-4">
+    <div class="mb-3">
+      <label for="name" class="form-label">Tên sản phẩm</label>
+      <input type="text" class="form-control" name="name" id="name" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="address" class="form-label">Địa chỉ</label>
+      <input type="text" class="form-control" name="address" id="address" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="phone" class="form-label">Số điện thoại</label>
+      <input type="text" class="form-control" name="phone" id="phone" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="supplierId" class="form-label">Nhà cung cấp</label>
+      <select class="form-select" name="supplierId" id="supplierId" required>
+        <% suppliers.forEach(supplier => { %>
+          <option value="<%= supplier._id %>"><%= supplier.name %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-success w-100">💾 Lưu sản phẩm</button>
+  </form>
+
+  <div class="text-center mt-3">
+    <a href="/products" class="btn btn-secondary">⬅ Quay lại danh sách</a>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
