@@ -3,6 +3,48 @@ const router = express.Router();
 const Product = require('../models/Product');
 const Supplier = require('../models/Supplier');
 
+
+// Danh sách sản phẩm
+router.get('/', async (req, res) => {
+  const products = await Product.find().populate('supplier');
+  res.render('products/index', { products });
+});
+
+// Form thêm mới
+router.get('/new', async (req, res) => {
+  const suppliers = await Supplier.find();
+  res.render('products/new', { suppliers });
+});
+
+// Thêm mới
+router.post('/new', async (req, res) => {
+  const { name, address, phone, supplier } = req.body;
+  await Product.create({ name, address, phone, supplier });
+  res.redirect('/products');
+});
+
+// Form sửa sản phẩm
+router.get('/:id/edit', async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  const suppliers = await Supplier.find();
+  res.render('products/edit', { product, suppliers });
+});
+
+// Cập nhật sản phẩm
+router.post('/:id/edit', async (req, res) => {
+  const { name, address, phone, supplier } = req.body;
+  await Product.findByIdAndUpdate(req.params.id, { name, address, phone, supplier }, { new: true, runValidators: true });
+  res.redirect('/products');
+});
+
+// Xóa sản phẩm
+router.get('/:id/delete', async (req, res) => {
+  await Product.findByIdAndDelete(req.params.id);
+  res.redirect('/products');
+});
+
+module.exports = router;
+
 /**
  * @swagger
  * tags:

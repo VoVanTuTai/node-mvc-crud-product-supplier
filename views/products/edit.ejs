@@ -1,33 +1,38 @@
-<!-- views/products/new.ejs -->
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Thêm sản phẩm</title>
-</head>
-<body>
-  <h1>Thêm sản phẩm mới</h1>
+<%- include('../partials/header') %>
 
-  <form action="/products/new" method="POST">
-    <label for="name">Tên sản phẩm:</label><br>
-    <input type="text" name="name" required><br><br>
+<div class="container mt-5">
+  <h1 class="mb-4">Sửa sản phẩm</h1>
 
-    <label for="address">Địa chỉ:</label><br>
-    <input type="text" name="address" required><br><br>
+  <form action="/products/<%= product._id %>/edit" method="POST" class="card p-4 shadow-sm bg-light rounded">
+    <div class="mb-3">
+      <label for="name" class="form-label">Tên sản phẩm</label>
+      <input type="text" class="form-control" name="name" value="<%= product.name %>" required>
+    </div>
 
-    <label for="phone">Số điện thoại:</label><br>
-    <input type="text" name="phone" required><br><br>
+    <div class="mb-3">
+      <label for="address" class="form-label">Địa chỉ</label>
+      <input type="text" class="form-control" name="address" value="<%= product.address %>" required>
+    </div>
 
-    <label for="supplierId">Nhà cung cấp:</label><br>
-    <select name="supplierId" required>
-      <% suppliers.forEach(supplier => { %>
-        <option value="<%= supplier._id %>"><%= supplier.name %></option>
-      <% }) %>
-    </select><br><br>
+    <div class="mb-3">
+      <label for="phone" class="form-label">Số điện thoại</label>
+      <input type="text" class="form-control" name="phone" value="<%= product.phone %>" required>
+    </div>
 
-    <button type="submit">Lưu</button>
+    <div class="mb-3">
+      <label for="supplier" class="form-label">Nhà cung cấp</label>
+      <select class="form-select" name="supplier" required>
+        <% suppliers.forEach(supplier => { %>
+          <option value="<%= supplier._id %>" <%= product.supplier && supplier._id.equals(product.supplier._id) ? 'selected' : '' %>>
+            <%= supplier.name %>
+          </option>
+        <% }) %>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Cập nhật</button>
+    <a href="/products" class="btn btn-secondary mt-3">Quay lại danh sách</a>
   </form>
+</div>
 
-  <br>
-  <a href="/products">Quay lại danh sách</a>
-</body>
-</html>
+<%- include('../partials/footer') %>
